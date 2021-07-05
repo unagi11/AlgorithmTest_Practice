@@ -7,7 +7,6 @@ class Solution:
 
         for log in logs:
             _list = log.split()
-            indicator = _list[0]
             _len = len(_list[0]) + 1
             if (log[_len:_len+1].isdigit()):                
                 dig_list.append(log)
