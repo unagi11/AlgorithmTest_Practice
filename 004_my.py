@@ -1,10 +1,8 @@
 from typing import List
 import re
 
-
 class Solution:
-    @staticmethod
-    def mostCommonWord(paragraph: str, banned: List[str]) -> str:
+    def mostCommonWord(self, paragraph: str, banned: List[str]) -> str:
         paragraph = re.sub("[^a-zA-Z0-9]", " ", paragraph)
         _split = paragraph.split()
         _dict = {}
@@ -16,12 +14,14 @@ class Solution:
                 _dict[index] += 1
         biggest = ["", 0]
         for index in _dict:
-            if index not in banned and _dict[index] > biggest[1]:
+            if (index not in banned and _dict[index] > biggest[1]):
                 biggest[0] = index
                 biggest[1] = _dict[index]
         return biggest[0]
 
+
 _paragraph = "Bob hit a ball, the hit BALL flew far after it was hit."
-_banned = ["hit"]
+_banned = ["hit"]    
+
 
 print(Solution().mostCommonWord(_paragraph, _banned))
