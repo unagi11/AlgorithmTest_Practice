@@ -13,7 +13,6 @@ class Solution:
             while True:
                 slice = s[left//2:right//2+1]
                 if slice == slice[::-1] and (left >= leftLimit and right <= rightLimit):
-                    
                     all_palindrome.append(slice)
                     _extends += 2
                     left = _pivot - _extends

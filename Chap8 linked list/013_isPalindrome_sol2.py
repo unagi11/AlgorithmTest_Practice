@@ -1,8 +1,5 @@
 # Definition for singly-linked list.
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
+from MyListNode import MyListNode as ListNode
 
 # 앞뒤로 O(1)로 접근 가능한 deque 사용
 import collections
