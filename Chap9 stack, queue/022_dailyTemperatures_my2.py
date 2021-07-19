@@ -33,12 +33,8 @@ class Solution:
                         _stack.append((s_index, s_key))
                         break
 
-        
-        _result.append(0)
-        
+        _result.append(0)        
         return _result
-
-
 
 _input = [73,74,75,71,69,72,76,73]
 print(Solution().dailyTemperatures(_input))
