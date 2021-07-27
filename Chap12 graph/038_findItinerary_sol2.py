@@ -24,6 +24,7 @@ class Solution:
             print(node, graph, graph[node])
             while graph[node]:
                 dfs(graph[node].pop())
+            # 리프 노드에서 넣어준다.
             route.append(node)
             print(route)
 

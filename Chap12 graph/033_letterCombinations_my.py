@@ -24,11 +24,13 @@ class Solution:
             return ""
 
         _list = list(numToDigits[digits[0]])
+
         if len(digits) == 1:
             return _list
 
         def AddChar(strList, nextStr) -> List[str]:
 
+            print(strList)
             newlist = []
 
             for c in list(nextStr):
@@ -42,4 +44,4 @@ class Solution:
 
         return _list
 
-print(Solution().letterCombinations("23"))
+print(Solution().letterCombinations("234"))

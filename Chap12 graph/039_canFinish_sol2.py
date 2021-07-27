@@ -5,6 +5,8 @@
 # Memory Usage: 18 MB, less than 5.11% of Python3 online submissions for Course Schedule.
 from typing import List
 
+# 위상정렬 방법도 있다.
+
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         graph = {i : [] for i in range(numCourses)}

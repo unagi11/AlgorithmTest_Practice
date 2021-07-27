@@ -14,7 +14,7 @@ class Solution:
             dic.setdefault(i, 0)
             dic[i] += 1
 
-        dictolist = [(i, dic[i]) for i in dic]        
+        dictolist = [(i, dic[i]) for i in dic]
         dictolist = sorted(dictolist, key = lambda x : x[1], reverse= True)
 
         print(dictolist)
