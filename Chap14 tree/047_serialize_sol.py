@@ -38,7 +38,6 @@ class Codec:
             return None
 
         nodes = data.split()
-
         print(nodes)
 
         root = TreeNode(int(nodes[1]))

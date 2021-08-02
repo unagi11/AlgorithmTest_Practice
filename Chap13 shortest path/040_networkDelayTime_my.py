@@ -9,7 +9,6 @@ import heapq
 
 # 다익스트라로 풀어봐야겠다.
 
-
 class Solution:
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
 

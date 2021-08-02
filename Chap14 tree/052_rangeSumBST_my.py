@@ -14,7 +14,7 @@ class Solution:
     sum = 0
 
     def rangeSumBST(self, root: TreeNode, low: int, high: int) -> int:
-        
+
         if root:
             if root.val < low:
                 self.rangeSumBST(root.right, low, high)
