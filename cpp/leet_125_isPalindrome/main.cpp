@@ -7,17 +7,17 @@ class Solution
 public:
     bool isPalindrome(string s)
     {
-        string temp;
+        string temp = "";
 
         for (string::iterator it = s.begin(); it < s.end(); it++)
         {
             *it = tolower(*it);
 
             if ((*it >= 'a' && *it <= 'z') || (*it >= '0' && *it <= '9'))
-                temp.append(1, *it);
+                temp += *it;
         }
 
-        for (int i = 0; i < temp.length(); i++)
+        for (int i = 0; i < temp.length() / 2; i++)
             if (temp[i] != temp[temp.length() - 1 - i])
                 return false;
 
