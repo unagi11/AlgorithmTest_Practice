@@ -10,13 +10,11 @@ private:
 public:
     int centerNumber, centerIndex;
 
-    int x_position, y_position;
+    int x_position;
 
     Node *leftNode = NULL;
     Node *rightNode = NULL;
     Node *parentNode = NULL;
-
-    Node();
 
     Node(int number, int index)
     {
@@ -32,17 +30,7 @@ public:
 
         printf("%d : l[%d] r[%d] p[%d]\n", centerNumber, leftNumber, rightNumber, parentNumber);
     }
-
-    ~Node();
 };
-
-Node::Node(/* args */)
-{
-}
-
-Node::~Node()
-{
-}
 
 int x_count = 0;
 
@@ -70,6 +58,7 @@ int main(int argc, char const *argv[])
 
     vector<Node> nodes;
 
+    // 입력받는다.
     for (int i = 0; i < countOfNodes; i++)
     {
         int center, left, right;
@@ -82,10 +71,10 @@ int main(int argc, char const *argv[])
         nodes.push_back(Node(center, i));
     }
 
+    // 노드를 연결한다.
     for (int i = 0; i < nodes.size(); i++)
     {
         int centerIndex = nodes[i].centerIndex;
-        // printf("%d : ", centers[centerIndex]);
 
         if (lefts[centerIndex] != -1)
         {
@@ -94,8 +83,6 @@ int main(int argc, char const *argv[])
 
             nodes[i].leftNode = &nodes[leftIndex];
             nodes[leftIndex].parentNode = &nodes[i];
-
-            // printf("%d ", centers[leftIndex]);
         }
 
         if (rights[centerIndex] != -1)
@@ -105,34 +92,18 @@ int main(int argc, char const *argv[])
 
             nodes[i].rightNode = &nodes[rightIndex];
             nodes[rightIndex].parentNode = &nodes[i];
-
-            // printf("%d ", centers[rightIndex]);
         }
-        // printf("\n");
     }
 
-    // for (Node node : nodes)
-    // {
-    //     node.print();
-    // }
-
-    // printf("find the root..\n");
-
+    // 루트를 구한다.
     Node *root = &nodes[0];
-
     while (root->parentNode != NULL)
-    {
-        // printf("%d\n", root->centerNumber);
-        // getchar();
         root = root->parentNode;
-    }
 
-    // printf("%d\n", root->centerNumber);
-
+    // 중위순회해서 x_position을 구한다.
     dfs_inorder_traverse(root);
 
-    // bfs 순회
-
+    // bfs 순회로 너비를 구한다.
     vector<Node *> Breadth;
     Breadth.push_back(root);
 
@@ -151,19 +122,13 @@ int main(int argc, char const *argv[])
             max_level = level;
         }
 
-        // printf("%d : ", level);
-
         for (int j = 0; j < Breadth.size(); j++)
         {
-            // printf("%d(%d), ", Breadth[j]->centerNumber, Breadth[j]->x_position);
-
             if (Breadth[j]->leftNode != NULL)
                 Next.push_back(Breadth[j]->leftNode);
             if (Breadth[j]->rightNode != NULL)
                 Next.push_back(Breadth[j]->rightNode);
         }
-        // printf("\n");
-
         Breadth = Next;
     }
 
