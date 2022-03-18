@@ -1,3 +1,4 @@
+// 출처 : http://wookje.dance/2018/06/24/boj-1415-boj-%EC%82%AC%ED%83%95/
 #include <cstdio>
 #include <vector>
 using namespace std;
