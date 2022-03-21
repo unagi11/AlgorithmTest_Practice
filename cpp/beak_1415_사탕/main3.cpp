@@ -6,7 +6,8 @@
 using namespace std;
 const int MAX = 500'001;
 
-vector<int> eratosthenes_prime(int max)
+    vector<int>
+    eratosthenes_prime(int max)
 {
     vector<bool> isPrimeNumbers(max, true);
 
