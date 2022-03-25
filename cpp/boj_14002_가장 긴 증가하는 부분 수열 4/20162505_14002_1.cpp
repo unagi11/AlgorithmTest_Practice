@@ -15,6 +15,10 @@ int main(int argc, char const *argv[])
     for (int i = 1; i <= count; i++)
         scanf("%d", &numbers[i]);
 
+        // for (int i = 1; i <= count; i++)
+        //     printf("%d ", numbers[i]);
+        // printf("\n");
+
 #pragma endregion
 
 #pragma region LIS DP O(n ^ 2)
@@ -34,6 +38,20 @@ int main(int argc, char const *argv[])
         }
     }
 
+    // printf("\n");
+    // for (int i = 0; i <= count; i++)
+    // {
+    //     printf("%d ", LIS[i]);
+    // }
+    // printf("\n");
+
+    // for (int i = 0; i <= count; i++)
+    // {
+    //     printf("%d ", PAST[i]);
+    // }
+    // printf("\n");
+    // printf("\n");
+
 #pragma endregion
 
 #pragma region path 역계산 및 출력
@@ -47,6 +65,8 @@ int main(int argc, char const *argv[])
         path_stack.push_back(numbers[max_index]);
         max_index = PAST[max_index];
     }
+
+    // printf("%d", path_stack.size());
 
     printf("%d\n", *max_iter);
     for (int i = path_stack.size() - 1; i >= 0; i--)
