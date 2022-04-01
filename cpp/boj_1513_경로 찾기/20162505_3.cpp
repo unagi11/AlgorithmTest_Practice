@@ -63,25 +63,98 @@ int main(int argc, char const *argv[])
         pivots.push_back(make_tuple(y, x));
     }
 
-    int index = find(pivots.begin(), pivots.end(), make_tuple(1, 1)) - pivots.begin();
-    if (index == pivots.size())
+    int lastIdx = 0;
+    int count = 0;
+    for (int y = 1; y <= rows; y++)
     {
-        pathCnts[1][1][0][0] = 1;
-        isRecorded[1][1][0][0] = true;
-    }
-    else
-    {
-        pathCnts[1][1][index][1] = 1;
-        isRecorded[1][1][index][1] = true;
+        int index = find(pivots.begin(), pivots.end(), make_tuple(y, 1)) - pivots.begin();
+
+        if (index != pivots.size())
+        {
+            count++;
+            lastIdx = index;
+            pathCnts[y][1][lastIdx][count] = 1;
+            isRecorded[y][1][lastIdx][count] = true;
+        }
+        else
+        {
+            pathCnts[y][1][lastIdx][count] = 1;
+            isRecorded[y][1][lastIdx][count] = true;
+        }
     }
 
+    lastIdx = 0;
+    count = 0;
+    for (int x = 1; x <= cols; x++)
+    {
+        int index = find(pivots.begin(), pivots.end(), make_tuple(1, x)) - pivots.begin();
+
+        if (index != pivots.size())
+        {
+            count++;
+            lastIdx = index;
+            pathCnts[1][x][lastIdx][count] = 1;
+            isRecorded[1][x][lastIdx][count] = true;
+        }
+        else
+        {
+            pathCnts[1][x][lastIdx][count] = 1;
+            isRecorded[1][x][lastIdx][count] = true;
+        }
+    }
+
+    // printf("\n");
+    // for (int y = 1; y <= rows; y++)
+    // {
+    //     for (int x = 1; x <= cols; x++)
+    //     {
+    //         for (int j = 0; j <= pivotCnt; j++)
+    //         {
+    //             printf("j%d:", j);
+    //             for (int i = j; i <= pivotCnt; i++)
+    //             {
+    //                 printf("%d ", pathCnts[y][x][i][j]);
+    //             }
+    //             printf(" ");
+    //         }
+    //         printf("|  ");
+    //     }
+    //     printf("\n");
+    // }
+
+    // printf("\n");
+    // for (int y = 1; y <= rows; y++)
+    // {
+    //     for (int x = 1; x <= cols; x++)
+    //     {
+    //         for (int j = 0; j <= pivotCnt; j++)
+    //         {
+    //             printf("j%d:", j);
+    //             for (int i = j; i <= pivotCnt; i++)
+    //             {
+    //                 printf("%d ", getPathCnt(y, x, i, j));
+    //             }
+    //             printf(" ");
+    //         }
+    //         printf("|  ");
+    //     }
+    //     printf("\n");
+    // }
+
+    // printf("\n");
     for (int j = 0; j <= pivotCnt; j++)
     {
         int temp = 0;
         for (int i = j; i <= pivotCnt; i++)
+        {
+            // printf("%d %d %d %d + ", rows, cols, i, j);
             temp = (temp + getPathCnt(rows, cols, i, j)) % MOD;
+        }
         printf("%d ", temp);
+        // printf("\n");
     }
+
+    // pathCnts[3][2][2][1] = 1;
 
     return 0;
 }
