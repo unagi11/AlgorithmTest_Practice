@@ -26,10 +26,7 @@ vector<point> stack;  // 그라함 스캔을 위한 스텍
 // 거리 제곱
 int distance(point a, point b)
 {
-    int dx = a.x - b.x;
-    int dy = a.y - b.y;
-
-    return dx * dx + dy * dy;
+    return (pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
 }
 
 // 그라함 스캔전 정렬용 함수
@@ -101,8 +98,7 @@ int main(int argc, char const *argv[])
     for (int i = 0; i < stack.size(); i++)
         for (int j = i + 1; j < stack.size(); j++)
             max_distance = max(max_distance, distance(stack[i], stack[j]));
-    printf("%lf\n", sqrt(max_distance));
-    printf("%d", (max_distance));
+    printf("%lf", sqrt(max_distance));
 #pragma endregion
 
     return 0;
