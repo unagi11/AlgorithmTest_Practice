@@ -42,6 +42,7 @@
     "unordered_map": "cpp",
     "chrono": "cpp",
     "random": "cpp",
-    "*.tcc": "cpp"
+    "*.tcc": "cpp",
+    "deque": "cpp"
   }
 }
