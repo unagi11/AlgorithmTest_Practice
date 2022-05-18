@@ -44,7 +44,7 @@ void isPaper(int start_y, int start_x, int size)
     }
 }
 
-int main(int argc, char const *argv[])
+int main(int argc, char const **argv)
 {
     int size = 0;
 

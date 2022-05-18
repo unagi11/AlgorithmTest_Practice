@@ -52,12 +52,7 @@ void calculateDP(int u)
     for (int v : scc_edge_list[u])
     {
         if (v == u)
-        {
-            if (color[v] == 'W')
-                calculateDP(v);
-            else
-                continue;
-        }
+            continue;
         else
         {
             int temp = dp[u] + sscc[v];
@@ -85,7 +80,7 @@ int main(int argc, char const *argv[])
     }
 #pragma endregion
 
-#pragma region 깊이우선탐색으로 '발견시간', '종료시간' 계산
+#pragma region 깊이우선탐색으로 순방향 DFS 스텍 계산
     time = 0;
     color = vector<char>(vtxCnt + 1, 'W'); // White
 
@@ -102,7 +97,7 @@ int main(int argc, char const *argv[])
             DFS_visit(u);
 #pragma endregion
 
-#pragma region 반전트리를 이용하여 SCC 계산후 그룹화
+#pragma region 반전트리를 이용하여 SCC 계산후 그룹화 'Kosaraju Algorithm'..
     time = 0;
     color = vector<char>(vtxCnt + 1, 'W'); // White
     scc = vector<int>(vtxCnt + 1, -1);
@@ -122,7 +117,6 @@ int main(int argc, char const *argv[])
     scc_edge_list = vector<set<int>>(sscc.size(), set<int>());
     for (pair<int, int> p : edge_list)
         scc_edge_list[scc[p.first]].insert(scc[p.second]);
-
 #pragma endregion
 
 #pragma region 'DP'를 이용하여 최대 도시개수 산출
