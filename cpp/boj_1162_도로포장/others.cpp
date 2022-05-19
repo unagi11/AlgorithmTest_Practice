@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <vector>
 #include <iostream>
+#include <time.h>
 #include <queue>
 using namespace std;
 
@@ -32,6 +33,8 @@ long long int dijkstra(int start)
         int cnt = pq.top().second.second;
         pq.pop();
 
+        printf("top %lld %d %d\n", here_c, here, cnt);
+
         if (here_c > cost[here][cnt])
             continue;
 
@@ -47,11 +50,13 @@ long long int dijkstra(int start)
                 {
                     cost[there][cnt + 1] = here_c;
                     pq.push(make_pair(-here_c, make_pair(there, cnt + 1)));
+                    printf("push %lld %d %d\n", here_c, there, cnt + 1);
                 }
                 if (cost[there][cnt + 1] > here_c)
                 {
                     cost[there][cnt + 1] = here_c;
                     pq.push(make_pair(-here_c, make_pair(there, cnt + 1)));
+                    printf("push %lld %d %d\n", here_c, there, cnt + 1);
                 }
             }
 
@@ -59,6 +64,7 @@ long long int dijkstra(int start)
             {
                 cost[there][cnt] = there_c;
                 pq.push(make_pair(-there_c, make_pair(there, cnt)));
+                printf("push %lld %d %d\n", there_c, there, cnt);
             }
         }
     }
@@ -74,6 +80,7 @@ long long int dijkstra(int start)
 
 int main(void)
 {
+    clock_t start = clock(); //시간 측정 시작
 
     int a, b, cost;
     scanf("%d %d %d", &n, &m, &k);
@@ -86,4 +93,8 @@ int main(void)
     }
 
     printf("%lld\n", dijkstra(1));
+
+    clock_t end = clock(); //시간 측정 끝
+    printf("time : %lfms", (double)(end - start));
+    return 0;
 }
