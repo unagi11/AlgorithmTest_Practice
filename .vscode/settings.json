@@ -47,6 +47,15 @@
     "iomanip": "cpp",
     "sstream": "cpp",
     "regex": "cpp",
-    "queue": "cpp"
+    "queue": "cpp",
+    "complex": "cpp",
+    "cstdlib": "cpp",
+    "functional": "cpp",
+    "fstream": "cpp",
+    "future": "cpp",
+    "iostream": "cpp",
+    "mutex": "cpp",
+    "ratio": "cpp",
+    "shared_mutex": "cpp"
   }
 }
