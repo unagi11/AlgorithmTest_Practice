@@ -12,7 +12,7 @@ using namespace std;
 #define MAX_PAVED 21
 #define MAX_COST 1'000'001
 
-typedef pair<long long, pair<long long, long long>> pp;
+typedef pair<long long, pair<int, int>> pp; // cost , u , v
 
 struct comparator
 {
@@ -22,10 +22,10 @@ struct comparator
     }
 };
 
-long long N_citys, M_edges, K_paves;                 // 도시개수, 도로개수, 포장가능개수
-vector<pair<long long, long long>> edges[MAX_CITYS]; // edges[i] : 도시i의 {도로, 비용} 리스트
-long long dp[MAX_CITYS][MAX_PAVED];                  // dp[i][j] : j번 포장하여 도시i에 도달하는 최소비용
-priority_queue<pp, vector<pp>, comparator> pq;       // 다익스트라용 우선순위큐. 계산할 가까운 도시를 찾는다.
+int N_citys, M_edges, K_paves;                 // 도시개수, 도로개수, 포장가능개수
+vector<pair<int, long long>> edges[MAX_CITYS]; // edges[i] : 도시i의 {도로, 비용} 리스트
+long long dp[MAX_CITYS][MAX_PAVED];            // dp[i][j] : j번 포장하여 도시i에 도달하는 최소비용
+priority_queue<pp, vector<pp>, comparator> pq; // 다익스트라용 우선순위큐. 계산할 가까운 도시를 찾는다.
 
 int main(int argc, char const *argv[])
 {
@@ -47,8 +47,8 @@ int main(int argc, char const *argv[])
 
 #pragma region 다익스트라
 
-    for (long long i = 0; i < MAX_CITYS; i++)
-        for (long long j = 0; j < MAX_PAVED; j++)
+    for (int i = 0; i < MAX_CITYS; i++)
+        for (int j = 0; j < MAX_PAVED; j++)
             dp[i][j] = __INT64_MAX__;
 
     pq.push({0, {1, 0}});
@@ -57,18 +57,18 @@ int main(int argc, char const *argv[])
     while (!pq.empty())
     {
         long long cur_cos = pq.top().first;
-        long long cur_pos = pq.top().second.first;
-        long long cur_pav = pq.top().second.second;
+        int cur_pos = pq.top().second.first;
+        int cur_pav = pq.top().second.second;
         pq.pop();
 
         // 현재 기록보다 더 안좋은 경우라면 무시한다.
         if (dp[cur_pos][cur_pav] < cur_cos)
             continue;
 
-        for (long long i = 0; i < edges[cur_pos].size(); i++)
+        for (int i = 0; i < edges[cur_pos].size(); i++)
         {
             long long nxt_cos = cur_cos + edges[cur_pos][i].second;
-            long long nxt_pos = edges[cur_pos][i].first;
+            int nxt_pos = edges[cur_pos][i].first;
 
             // 포장하지 않고 나아지는 경우
             if (nxt_cos < dp[nxt_pos][cur_pav])
@@ -91,7 +91,7 @@ int main(int argc, char const *argv[])
 #pragma region 최소값 출력부
 
     long long answer = dp[N_citys][0];
-    for (long long i = 1; i <= K_paves; i++)
+    for (int i = 1; i <= K_paves; i++)
         answer = min(answer, dp[N_citys][i]);
     printf("%lld", answer);
 
