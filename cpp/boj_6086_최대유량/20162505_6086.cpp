@@ -70,7 +70,6 @@ int main(int argc, char const *argv[])
                 {
                     int pred = parent[index];
                     min_augment = min(min_augment, capacity[pred][index] - flow[pred][index]);
-
                     index = pred;
                 }
                 answer += min_augment;
