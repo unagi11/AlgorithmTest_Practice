@@ -4,18 +4,19 @@
 #include <map>
 #include <set>
 #include <algorithm>
-#include <stdint.h>
+
+#define MAX_DIST 2501
 
 using namespace std;
 typedef pair<int, int> int2;
 
 int rows, cols;
 
-vector<vector<char>> matrix;
+vector<vector<char>> matrix; // matrix[rows][cols]
 
 int num_cars = 0, num_parks = 0;
 vector<int2> cars, parks;
-map<int2, int> park_index;
+vector<vector<int>> park_index;
 
 vector<vector<int>> edge; // edge[car][park] : car에서 park 까지의 비용
 vector<bool> visited;
@@ -28,7 +29,7 @@ bool bipartitie_matching(int car, int cost)
 
     visited[car] = true;
 
-    for (int park = 0; park < edge[car].size(); park++)
+    for (int park = 0; park < num_parks; park++)
     {
         if (edge[car][park] > cost)
             continue;
@@ -47,6 +48,7 @@ int main(int argc, char const *argv[])
     scanf("%d %d\n", &rows, &cols);
 
     matrix = vector<vector<char>>(rows, vector<char>(cols, ' '));
+    park_index = vector<vector<int>>(rows, vector<int>(cols, -1));
 
     for (int i = 0; i < rows; i++)
     {
@@ -60,7 +62,6 @@ int main(int argc, char const *argv[])
             }
             else if (matrix[i][j] == 'P')
             {
-                park_index.insert({{i, j}, num_parks});
                 num_parks++;
                 parks.push_back({i, j});
             }
@@ -68,7 +69,19 @@ int main(int argc, char const *argv[])
         scanf("\n");
     }
 
-    edge = vector<vector<int>>(num_cars, vector<int>(num_parks, INT32_MAX));
+    if (num_cars == 0)
+    {
+        printf("0");
+        exit(0);
+    }
+
+    for (int i = 0; i < parks.size(); i++)
+    {
+        int2 park = parks[i];
+        park_index[park.first][park.second] = i;
+    }
+
+    edge = vector<vector<int>>(num_cars, vector<int>(num_parks + 1, MAX_DIST));
 
     int2 directions[4] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
@@ -76,35 +89,34 @@ int main(int argc, char const *argv[])
     {
         vector<int2> queue = {cars[i]};
         vector<int2> frontier = {};
-        vector<vector<bool>> visited(rows, vector<bool>(cols, false));
+        vector<vector<bool>> queued(rows, vector<bool>(cols, false));
+
+        queued[cars[i].first][cars[i].second] = true;
         int distance = 0;
 
         // 더이상 갈수있는 점이 없을때까지 반복한다.
         while (!queue.empty())
         {
-            for (auto position : queue)
+            for (int j = 0; j < queue.size(); j++)
             {
-                visited[position.first][position.second] = true;
+                int2 position = queue[j];
 
                 if (matrix[position.first][position.second] == 'P')
-                    edge[i][park_index.find(position)->second] = distance;
+                    edge[i][park_index[position.first][position.second]] = distance;
 
-                for (int2 direction : directions)
+                for (int k = 0; k < 4; k++)
                 {
+                    int2 direction = directions[k];
                     int2 temp = {position.first + direction.first, position.second + direction.second};
 
-                    // 맵 범위 초과 혹은
-                    // 방문한 곳 혹은
-                    // X인곳 이면
-                    // frontier에 넣지 않는다.
                     if (temp.first < 0 || temp.first >= rows ||
                         temp.second < 0 || temp.second >= cols ||
-                        visited[temp.first][temp.second] ||
+                        queued[temp.first][temp.second] ||
                         matrix[temp.first][temp.second] == 'X')
                         continue;
                     else
                     {
-                        visited[temp.first][temp.second] = true;
+                        queued[temp.first][temp.second] = true;
                         frontier.push_back(temp);
                     }
                 }
@@ -116,12 +128,21 @@ int main(int argc, char const *argv[])
         }
     }
 
+    // for (int i = 0; i < edge.size(); i++)
+    // {
+    //     for (int j = 0; j < edge[i].size(); j++)
+    //     {
+    //         printf("%d ", edge[i][j]);
+    //     }
+    //     printf("\n");
+    // }
+
+#pragma region 이분 탐색
     int left = edge[0][0];
     int right = edge[0][0];
-    bool valid = false;
 
-    for (int i = 0; i < edge.size(); i++)
-        for (int j = 0; j < edge[i].size(); j++)
+    for (int i = 0; i < num_cars; i++)
+        for (int j = 0; j < num_parks; j++)
         {
             left = min(left, edge[i][j]);
             right = max(right, edge[i][j]);
@@ -143,16 +164,23 @@ int main(int argc, char const *argv[])
 
         // 가능하다면 최소 코스트를 찾는다.
         if (possible == num_cars)
-        {
             right = pivot;
-            valid = true;
-        }
         // 불가능하다면 더 높은 코스트에서 찾는다.
         else
             left = pivot + 1;
     }
+#pragma endregion
 
-    printf("%d", valid ? right : -1);
+    match = vector<int>(num_parks, -1);
+    int possible = 0;
+    for (int i = 0; i < num_cars; i++)
+    {
+        visited = vector<bool>(num_cars, false);
+        if (bipartitie_matching(i, right))
+            possible++;
+    }
+
+    printf("%d", right != MAX_DIST && possible == num_cars ? right : -1);
 
     return 0;
 }

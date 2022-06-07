@@ -1,0 +1,61 @@
+3 7
+C.....P
+C.....P
+C.....P
+
+c 6 7 8
+C 7 6 7
+c 8 7 6
+
+> 6
+
+left = 6
+right = 8
+
+X : 벽
+C : car 차
+P : parking 주차장
+. : 빈공간
+
+C > P
+
+모든 차들이 주차장까지 가는데 걸리는
+ 최소 시간을 구해라
+
+모든 차들이 주차장에 파킹을 못하는 경우라면 -1
+
+BFS
+
+level
+distance
+depth
+
+모든 차 와 주차장 까지의 거리를 구해야함
+
+이분탐색
+파라매트릭 서치
+ㄴ 0~100 < 답을 먼저 가정하고 되는지 안되는지 검증
+
+
+0 true false 
+99 
+98 
+97
+6 < 됨
+5 < 안됨
+
+
+
+0
+
+while(left < right)
+{
+pivot = left + right 
+
+
+if (안됨)
+left = pivot
+
+if (됨)
+right = pivot
+}
