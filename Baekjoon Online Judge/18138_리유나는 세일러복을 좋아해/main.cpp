@@ -3,31 +3,36 @@
 #include <algorithm>
 using namespace std;
 
-#define MAX 203 // 카라와 티셔츠의 최대개수
+#define MAX 201 // 카라와 티셔츠의 최대개수
 
-vector<int> ableKara[MAX];
+vector<int> vt[MAX];
 
-int karaToShirts[MAX];
-bool isMatched[MAX];
+int match[MAX];
+bool visited[MAX];
 
 int numOfShirts, numOfKaras;
 
-bool dfs(int shirtNumber)
+bool dfs(int a)
 {
-    for (int i = 0; i < ableKara[shirtNumber].size(); i++)
-    {
-        int karaNumber = ableKara[shirtNumber][i];
+    if (visited[a])
+        return false;
 
-        if (isMatched[karaNumber] == true)
-            continue;
-        isMatched[karaNumber] = true;
+    visited[a] = true;
 
-        if (karaToShirts[karaNumber] == 0 || dfs(karaToShirts[karaNumber]))
+    for (int b : vt[a])
+        if (match[b] == -1)
         {
-            karaToShirts[karaNumber] = shirtNumber;
+            match[b] = a;
             return true;
         }
-    }
+
+    for (int b : vt[a])
+        if (dfs(match[b]))
+        {
+            match[b] = a;
+            return true;
+        }
+
     return false;
 }
 
@@ -55,45 +60,23 @@ int main(int argc, char const *argv[])
     {
         for (int j = 0; j < numOfKaras; j++)
         {
-            if (karas[j] >= shirts[i] * 0.5 && karas[j] <= shirts[i] * 0.75)
-                ableKara[i].push_back(j);
-            if (karas[j] >= shirts[i] && karas[j] <= shirts[i] * 1.25)
-                ableKara[i].push_back(j);
+            if (karas[j] * 2 >= shirts[i] && karas[j] * 4 <= shirts[i] * 3)
+                vt[i].push_back(j);
+            else if (karas[j] >= shirts[i] && karas[j] * 4 <= shirts[i] * 5)
+                vt[i].push_back(j);
         }
     }
 
-    // printf("\n");
-    // printf("\n");
-
-    // for (int i = 0; i < numOfShirts; i++)
-    // {
-    //     printf("%d : ", i);
-    //     for (int j = 0; j < ableKara[i].size(); j++)
-    //     {
-    //         printf("%d ,", ableKara[i][j]);
-    //     }
-    //     printf("\n");
-    // }
-
-    // printf("\n");
-    // printf("\n");
-
     int count = 0;
+    fill(match, match + MAX, -1);
     for (int i = 0; i < numOfShirts; i++)
     {
-        fill(isMatched, isMatched + MAX, false);
+        fill(visited, visited + MAX, false);
         if (dfs(i))
             count++;
     }
 
     printf("%d", count);
-    // for (int i = 0; i < MAX; i++)
-    // {
-    //     if (karaToShirts[i] != 0)
-    //     {
-    //         printf("%d -> %d \n", karaToShirts[i], i);
-    //     }
-    // }
 
     return 0;
 }
